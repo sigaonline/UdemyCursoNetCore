@@ -1,9 +1,8 @@
 CREATE TABLE `books` (
-	`Id` VARCHAR(127) NOT NULL,
+	`Id` INT(10) UNSIGNED NOT NULL,
 	`Author` LONGTEXT,
 	`LaunchDate` DATETIME(6) NOT NULL,
 	`Price` DECIMAL(65,2) NOT NULL,
-	`Title` LONGTEXT,
-	 PRIMARY KEY (`Id`)
+	`Title` LONGTEXT
 );
 

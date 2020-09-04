@@ -5,44 +5,26 @@ using System.Threading.Tasks;
 using UdemyCurso.Model;
 using UdemyCurso.Model.Context;
 using UdemyCurso.Repository;
+using UdemyCurso.Repository.Generic;
 
 namespace UdemyCurso.Business.Implementation
 {
     public class PersonBusinessImpl : IPersonBusiness
     {
 
-        private IPersonRepository _repository;
-        public PersonBusinessImpl(IPersonRepository context)
+        private IRepository<Person> _repository;
+        public PersonBusinessImpl(IRepository<Person> context)
         {
             _repository = context;
         }
         public Person Create(Person person)
         {
-            try
-            {
-                _repository.Create(person);
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-
-            return person;
+            return _repository.Create(person);
         }
 
         public void Delete(long id)
         {
-            try
-            {
-                _repository.Delete(id);
-
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
+            _repository.Delete(id);
         }
 
         public List<Person> FindAll()

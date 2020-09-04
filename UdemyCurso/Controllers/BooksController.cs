@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using UdemyCurso.Business;
 using UdemyCurso.Model;
 
 namespace UdemyCurso.Controllers
@@ -8,54 +9,59 @@ namespace UdemyCurso.Controllers
 
     public class BooksController : Controller
     {
+        private IBookBusiness _bookBusiness;
+
+        public BooksController(IBookBusiness bookBusiness)
+        {
+            _bookBusiness = bookBusiness;
+        }
+
 
         // GET api/values
         [HttpGet]
         public IActionResult Get()
         {
-            //return Ok(_bookBusiness.FindAll());
-            return Ok();
+            return Ok(_bookBusiness.FindAll());
         }
         // GET api/values/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            //var person = _bookBusiness.FindBy(id);
-            //if (person == null) return NotFound();
+            var book = _bookBusiness.FindBy(id);
+            if (book == null) return NotFound();
 
-            //return Ok(person);
-            return Ok();
+            return Ok(book);
         }
 
         // GET api/values/5
         [HttpPost]
         public IActionResult Post([FromBody] Book book)
         {
-            //if (person == null) return BadRequest();
+            if (book == null) return BadRequest();
 
-            //return new ObjectResult(_bookBusiness.Create(person));
-            return Ok();
+            return new ObjectResult(_bookBusiness.Create(book));
+   
         }
 
         // GET api/values/5
         [HttpPut]
         public IActionResult Put([FromBody] Book book)
         {
-            //if (person == null) return BadRequest();
-            //var updatePerson = _bookBusiness.Update(person);
-            //if (updatePerson == null) return BadRequest();
+            if (book == null) return BadRequest();
+            var updateBook = _bookBusiness.Update(book);
+            if (updateBook == null) return BadRequest();
 
-            //return new ObjectResult(updatePerson);
-            return Ok();
+            return new ObjectResult(updateBook);
+
         }
 
         // GET api/values/5
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            //_bookBusiness.Delete(id);
-            //return NoContent();
-            return Ok();
+            _bookBusiness.Delete(id);
+            return NoContent();
+           
         }
 
 

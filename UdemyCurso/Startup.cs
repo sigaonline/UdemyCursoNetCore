@@ -65,6 +65,7 @@ namespace UdemyCurso
             services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddApiVersioning();
             services.AddScoped<IPersonBusiness, PersonBusinessImpl>();
+            services.AddScoped<IBookBusiness, BookBusinessImpl>();
             services.AddScoped<IPersonRepository, PersonRepositoryImpl>();
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         }

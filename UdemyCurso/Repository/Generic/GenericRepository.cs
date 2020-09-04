@@ -53,7 +53,7 @@ namespace UdemyCurso.Repository.Generic
             }
         }
 
-        public bool Exists(long? id)
+        private bool Exists(long? id)
         {
             return _dataSet.Any(p => p.Id.Equals(id));
         }
