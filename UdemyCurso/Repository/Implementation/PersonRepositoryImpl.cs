@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using UdemyCurso.Model;
 using UdemyCurso.Model.Context;
 
-namespace UdemyCurso.Services.Implementation
+namespace UdemyCurso.Repository.Implementation
 {
-    public class PersonServiceImpl : IPersonService
+    public class PersonRepositoryImpl : IPersonRepository
     {
 
         private MySQLContext _context;
-        public PersonServiceImpl(MySQLContext context)
+        public PersonRepositoryImpl(MySQLContext context)
         {
             _context = context;
         }
@@ -65,7 +65,7 @@ namespace UdemyCurso.Services.Implementation
         {
             try
             {
-                if (!Exist(person.Id)) return new Person();
+                if (!Exists(person.Id)) return null;
 
                 var result = _context.Persons.SingleOrDefault(p => p.Id.Equals(person.Id));
 
@@ -81,7 +81,7 @@ namespace UdemyCurso.Services.Implementation
             return person;
         }
 
-        private bool Exist(long? id)
+        public bool Exists(long? id)
         {
             return _context.Persons.Any(p => p.Id.Equals(id));
             
