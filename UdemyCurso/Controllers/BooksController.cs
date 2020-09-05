@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using UdemyCurso.Business;
+using UdemyCurso.Data.VO;
 using UdemyCurso.Model;
 
 namespace UdemyCurso.Controllers
@@ -19,12 +21,20 @@ namespace UdemyCurso.Controllers
 
         // GET api/values
         [HttpGet]
+        [ProducesResponseType((200), Type = typeof(List<BookVO>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Get()
         {
             return Ok(_bookBusiness.FindAll());
         }
         // GET api/values/5
         [HttpGet("{id}")]
+        [ProducesResponseType((200), Type = typeof(List<BookVO>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Get(int id)
         {
             var book = _bookBusiness.FindBy(id);
@@ -35,7 +45,10 @@ namespace UdemyCurso.Controllers
 
         // GET api/values/5
         [HttpPost]
-        public IActionResult Post([FromBody] Book book)
+        [ProducesResponseType((201), Type = typeof(List<BookVO>))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        public IActionResult Post([FromBody] BookVO book)
         {
             if (book == null) return BadRequest();
 
@@ -45,7 +58,10 @@ namespace UdemyCurso.Controllers
 
         // GET api/values/5
         [HttpPut]
-        public IActionResult Put([FromBody] Book book)
+        [ProducesResponseType((201), Type = typeof(List<BookVO>))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        public IActionResult Put([FromBody] BookVO book)
         {
             if (book == null) return BadRequest();
             var updateBook = _bookBusiness.Update(book);
@@ -57,6 +73,9 @@ namespace UdemyCurso.Controllers
 
         // GET api/values/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Delete(long id)
         {
             _bookBusiness.Delete(id);

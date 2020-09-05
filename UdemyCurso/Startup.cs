@@ -13,6 +13,10 @@ using UdemyCurso.Repository;
 
 using System.Collections.Generic;
 using UdemyCurso.Repository.Generic;
+using Microsoft.Net.Http.Headers;
+using Tapioca.HATEOAS;
+using UdemyCurso.Hypermedia;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace UdemyCurso
 {
@@ -62,8 +66,29 @@ namespace UdemyCurso
             });
 
             //services.AddControllers();
-            services.AddMvc(option => option.EnableEndpointRouting = false);
+            services.AddMvc(option => 
+            { 
+                option.EnableEndpointRouting = false;
+                option.RespectBrowserAcceptHeader = true;
+                option.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("text/xml"));
+                option.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("text/json"));
+            }
+            )
+                .AddXmlSerializerFormatters();
+
+            var filterOptions = new HyperMediaFilterOptions();
+            filterOptions.ObjectContentResponseEnricherList.Add(new PersonEnricher());
+            
+            services.AddSingleton(filterOptions);
+            
             services.AddApiVersioning();
+            services.AddSwaggerGen(c => 
+            {
+                c.SwaggerDoc("v1", new  Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "ReSTful API ASP.NET Core"
+                });
+            });
             services.AddScoped<IPersonBusiness, PersonBusinessImpl>();
             services.AddScoped<IBookBusiness, BookBusinessImpl>();
             services.AddScoped<IPersonRepository, PersonRepositoryImpl>();
@@ -73,11 +98,26 @@ namespace UdemyCurso
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-           
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("v1/swagger.json", "My API V1");
+            });
+
+            var option = new RewriteOptions();
+            option.AddRedirect("^$", "swagger");
+            app.UseRewriter(option);
+
+            app.UseMvc( routes => 
+            {
+                routes.MapRoute(
+                    name : "DefaultApi",
+                    template : "{controller=Values}/{id?}"
+                    );
+            });
             //loggerFactory.AddConsole(_configuration.GetSection("Logging"));
 
-            app.UseRouting();
-            app.UseEndpoints(builder => builder.MapControllers());
+            //app.UseRouting();
+            //app.UseEndpoints(builder => builder.MapControllers());
 
         }
     }

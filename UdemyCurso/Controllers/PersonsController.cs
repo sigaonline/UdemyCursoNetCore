@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using UdemyCurso.Model;
 using UdemyCurso.Business;
+using UdemyCurso.Data.VO;
+using Tapioca.HATEOAS;
+using Swashbuckle.Swagger.Annotations;
 
 namespace UdemyCurso.Controllers
 {
@@ -23,6 +26,11 @@ namespace UdemyCurso.Controllers
 
         // GET api/values
         [HttpGet]
+        [ProducesResponseType((200), Type = typeof(List<PersonVO>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get()
         {
             return Ok(_personBusiness.FindAll());
@@ -30,6 +38,11 @@ namespace UdemyCurso.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
+        [ProducesResponseType((200), Type = typeof(List<PersonVO>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get(int id)
         {
             var person = _personBusiness.FindBy(id);
@@ -40,7 +53,11 @@ namespace UdemyCurso.Controllers
 
         // GET api/values/5
         [HttpPost]
-        public IActionResult Post([FromBody] Person person)
+        [ProducesResponseType((201), Type = typeof(List<PersonVO>))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public IActionResult Post([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
 
@@ -49,7 +66,11 @@ namespace UdemyCurso.Controllers
 
         // GET api/values/5
         [HttpPut]
-        public IActionResult Put([FromBody] Person person)
+        [ProducesResponseType((202), Type = typeof(List<PersonVO>))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public IActionResult Put([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
             var updatePerson = _personBusiness.Update(person);
@@ -60,6 +81,10 @@ namespace UdemyCurso.Controllers
 
         // GET api/values/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Delete(long id)
         {
             _personBusiness.Delete(id);

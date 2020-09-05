@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UdemyCurso.Data.Converters;
+using UdemyCurso.Data.VO;
 using UdemyCurso.Model;
 using UdemyCurso.Model.Context;
 using UdemyCurso.Repository;
@@ -13,13 +15,17 @@ namespace UdemyCurso.Business.Implementation
     {
 
         private IRepository<Person> _repository;
+        private readonly PersonConverter _converter;
         public PersonBusinessImpl(IRepository<Person> context)
         {
             _repository = context;
+            _converter = new PersonConverter();
         }
-        public Person Create(Person person)
+        public PersonVO Create(PersonVO personVO)
         {
-            return _repository.Create(person);
+            var personEntity = _converter.Parse(personVO);
+            personEntity = _repository.Create(personEntity);
+            return _converter.Parse(personEntity);
         }
 
         public void Delete(long id)
@@ -27,20 +33,22 @@ namespace UdemyCurso.Business.Implementation
             _repository.Delete(id);
         }
 
-        public List<Person> FindAll()
+        public List<PersonVO> FindAll()
         {
-            return _repository.FindAll();
+            return _converter.ParseList(_repository.FindAll());
         }
 
-        public Person FindBy(long id)
+        public PersonVO FindBy(long id)
         {
-            return _repository.FindBy(id);
+            return _converter.Parse(_repository.FindBy(id));
 
         }
 
-        public Person Update(Person person)
+        public PersonVO Update(PersonVO personVO)
         {
-            return _repository.Update(person);
+            var personEntity = _converter.Parse(personVO);
+            personEntity = _repository.Update(personEntity);
+            return _converter.Parse(personEntity);
         }
 
     }
