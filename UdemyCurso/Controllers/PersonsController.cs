@@ -9,6 +9,7 @@ using UdemyCurso.Business;
 using UdemyCurso.Data.VO;
 using Tapioca.HATEOAS;
 using Swashbuckle.Swagger.Annotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace UdemyCurso.Controllers
 {
@@ -30,6 +31,7 @@ namespace UdemyCurso.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize("Bearer")]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get()
         {
@@ -42,6 +44,7 @@ namespace UdemyCurso.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize("Bearer")]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get(int id)
         {
@@ -56,6 +59,7 @@ namespace UdemyCurso.Controllers
         [ProducesResponseType((201), Type = typeof(List<PersonVO>))]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize("Bearer")]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Post([FromBody] PersonVO person)
         {
@@ -69,6 +73,7 @@ namespace UdemyCurso.Controllers
         [ProducesResponseType((202), Type = typeof(List<PersonVO>))]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize("Bearer")]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Put([FromBody] PersonVO person)
         {
@@ -84,6 +89,7 @@ namespace UdemyCurso.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize("Bearer")]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Delete(long id)
         {

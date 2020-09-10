@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UdemyCurso.Business;
 using UdemyCurso.Data.VO;
 using UdemyCurso.Model;
+using Microsoft.AspNetCore.Authorization;
 
 namespace UdemyCurso.Controllers
 {
@@ -25,6 +26,7 @@ namespace UdemyCurso.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize("Bearer")]
         public IActionResult Get()
         {
             return Ok(_bookBusiness.FindAll());
@@ -35,6 +37,7 @@ namespace UdemyCurso.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize("Bearer")]
         public IActionResult Get(int id)
         {
             var book = _bookBusiness.FindBy(id);
@@ -48,6 +51,7 @@ namespace UdemyCurso.Controllers
         [ProducesResponseType((201), Type = typeof(List<BookVO>))]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize("Bearer")]
         public IActionResult Post([FromBody] BookVO book)
         {
             if (book == null) return BadRequest();
@@ -61,6 +65,7 @@ namespace UdemyCurso.Controllers
         [ProducesResponseType((201), Type = typeof(List<BookVO>))]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize("Bearer")]
         public IActionResult Put([FromBody] BookVO book)
         {
             if (book == null) return BadRequest();
@@ -76,6 +81,7 @@ namespace UdemyCurso.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize("Bearer")]
         public IActionResult Delete(long id)
         {
             _bookBusiness.Delete(id);
