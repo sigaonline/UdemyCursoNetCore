@@ -9,6 +9,7 @@ namespace UdemyCurso.Business
         PersonVO Create(PersonVO person);
         PersonVO FindBy(long id);
         List<PersonVO> FindAll();
+        List<PersonVO> FindByName(string firstName, string lastName);
         PersonVO Update(PersonVO person);
         void Delete(long id);
     }

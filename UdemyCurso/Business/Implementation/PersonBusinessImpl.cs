@@ -14,9 +14,10 @@ namespace UdemyCurso.Business.Implementation
     public class PersonBusinessImpl : IPersonBusiness
     {
 
-        private IRepository<Person> _repository;
+        private IPersonRepository _repository;
+
         private readonly PersonConverter _converter;
-        public PersonBusinessImpl(IRepository<Person> context)
+        public PersonBusinessImpl(IPersonRepository context)
         {
             _repository = context;
             _converter = new PersonConverter();
@@ -37,6 +38,12 @@ namespace UdemyCurso.Business.Implementation
         {
             return _converter.ParseList(_repository.FindAll());
         }
+
+        public List<PersonVO> FindByName(string firstName, string lastName)
+        {
+            return _converter.ParseList(_repository.FindByName(firstName, lastName));
+        }
+
 
         public PersonVO FindBy(long id)
         {
