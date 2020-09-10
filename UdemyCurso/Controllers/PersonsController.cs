@@ -52,6 +52,18 @@ namespace UdemyCurso.Controllers
             return Ok(_personBusiness.FindByName(firstname, lastname));
         }
 
+        // GET api/values
+        [HttpGet("find-with-paged-search/{sortDirection}/{pageSize}/{page}")]
+        [ProducesResponseType((200), Type = typeof(List<PersonVO>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [Authorize("Bearer")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public IActionResult GetPageSearch([FromQuery] string name, string sortDirection, int pageSize, int page)
+        {
+            return Ok(_personBusiness.FindWithPageSearch( name,  sortDirection,  pageSize,  page));
+        }
         // GET api/values/5
         [HttpGet("{id}")]
         [ProducesResponseType((200), Type = typeof(List<PersonVO>))]

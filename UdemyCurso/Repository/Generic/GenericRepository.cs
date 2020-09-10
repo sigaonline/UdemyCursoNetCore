@@ -5,6 +5,7 @@ using UdemyCurso.Model.Base;
 using UdemyCurso.Model.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Data;
 
 namespace UdemyCurso.Repository.Generic
 {
@@ -86,6 +87,11 @@ namespace UdemyCurso.Repository.Generic
             }
 
             return item;
+        }
+
+        public List<T> FindWithPageSearch(string query)
+        {
+            return _dataSet.FromSqlRaw<T>(query).ToList();
         }
     }
 }

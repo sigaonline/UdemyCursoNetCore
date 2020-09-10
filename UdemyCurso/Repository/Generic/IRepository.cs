@@ -10,5 +10,6 @@ namespace UdemyCurso.Repository.Generic
         List<T> FindAll();
         T Update(T item);
         void Delete(long id);
+        List<T> FindWithPageSearch(string query);
     }
 }
