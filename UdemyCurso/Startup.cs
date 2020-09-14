@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;
 using System.Threading;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace UdemyCurso
 {
@@ -42,6 +43,17 @@ namespace UdemyCurso
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
+            // If using IIS:
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
             var connectionString = _configuration["ConnectionStrings:DefaultConnection"];
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connectionString));
 
@@ -107,11 +119,12 @@ namespace UdemyCurso
             });
             services.AddScoped<IPersonBusiness, PersonBusinessImpl>();
             services.AddScoped<IBookBusiness, BookBusinessImpl>();
-            
             services.AddScoped<ILoginBusiness, LoginBusinessImpl>();
+            services.AddScoped<IFileBusiness, FileBusinessImpl>();
 
             services.AddScoped<IUserRepository, UserRepositoryImpl>();
             services.AddScoped<IPersonRepository, PersonRepositoryImpl>();
+            
 
             //services.AddScoped<IPersonRepository, PersonRepositoryImpl>();
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
